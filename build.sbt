@@ -138,6 +138,7 @@ val instrumentationProjects = Seq[ProjectReference](
   `kamon-akka-grpc`,
   `kamon-play`,
   `kamon-okhttp`,
+  `kamon-asynchttpclient`,
   `kamon-tapir`,
   `kamon-redis`,
   `kamon-caffeine`,
@@ -514,6 +515,22 @@ lazy val `kamon-okhttp` = (project in file("instrumentation/kamon-okhttp"))
     libraryDependencies ++= Seq(
       kanelaAgent % "provided",
       "com.squareup.okhttp3"      % "okhttp"                    % "3.14.9" % "provided",
+
+      scalatest % "test",
+      logbackClassic % "test",
+      "org.eclipse.jetty"         % "jetty-server"              % "9.4.25.v20191220" % "test",
+      "org.eclipse.jetty"         % "jetty-servlet"             % "9.4.25.v20191220" % "test",
+    )
+  ).dependsOn(`kamon-core`, `kamon-executors`, `kamon-testkit` % "test")
+
+lazy val `kamon-asynchttpclient` = (project in file("instrumentation/kamon-asynchttpclient"))
+  .disablePlugins(AssemblyPlugin)
+  .enablePlugins(JavaAgent)
+  .settings(instrumentationSettings)
+  .settings(
+    libraryDependencies ++= Seq(
+      kanelaAgent % "provided",
+      "org.asynchttpclient" % "async-http-client" % "2.12.3" % "provided",
 
       scalatest % "test",
       logbackClassic % "test",
