@@ -23,7 +23,7 @@ object AsyncHttpClientAdvisor {
   import JavaConverters._
 
   @Advice.OnMethodEnter(suppress = classOf[Throwable])
-  @Advice.AssignReturned.ToArguments(Advice.AssignReturned.ToArgument(0))
+  @Advice.Returned.ToArguments(Advice.AssignReturned.ToArgument(0))
   def addKamonInterceptor(@Advice.Argument(0) config: AsyncHttpClientConfig): AsyncHttpClientConfig = {
     val requestFilters = config.getRequestFilters().asScala
 
